@@ -1,0 +1,25 @@
+{
+  "name": "aoc2023",
+  "version": "1.0.0",
+  "description": "Just a repo for holding my work for Advent of Code 2023",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint *.js",
+    "lintfix": "eslint *.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miquelfire/aoc2023.git"
+  },
+  "author": "Miquel \"Fire\" Burns <miquelfire@gmail.com> (https://miquelfire.red/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/miquelfire/aoc2023/issues"
+  },
+  "homepage": "https://github.com/miquelfire/aoc2023#readme",
+  "devDependencies": {
+    "eslint": "^8.54.0"
+  }
+}
