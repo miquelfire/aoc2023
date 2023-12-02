@@ -37,6 +37,32 @@ export const part1 = async d => {
  * @param {string} d 
  */
 export const part2 = async d => {
-	const data = d.split('\n');
-	return [];
+	const data = d.split('\n')
+		.map(e => {
+			const gameInfo = e.match(/Game (\d+): (.+)/);
+			//console.log(gameInfo);
+			return [
+				parseInt(gameInfo[1], 10),
+				gameInfo[2].split(';').map(
+					e => {
+						const cubes = {red: 0, green: 0, blue: 0};
+						e.split(',').map(e => {
+							const handful = e.trim().split(' ');
+							cubes[handful[1]] = parseInt(handful[0], 10);
+						});
+						return cubes;
+					})
+			];
+		})
+		.map(e => {
+			const minCubes = {red: 0, green: 0, blue: 0};
+			e[1].forEach(e => {
+				minCubes.red = Math.max(minCubes.red, e.red);
+				minCubes.green = Math.max(minCubes.green, e.green);
+				minCubes.blue = Math.max(minCubes.blue, e.blue);
+			});
+			return minCubes.red * minCubes.blue * minCubes.green;
+		})
+		.reduce((p, v) => p + v, 0);
+	return data;
 };
