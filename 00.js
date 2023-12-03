@@ -11,5 +11,6 @@ export const part1 = async d => {
  */
 export const part2 = async d => {
 	const data = d.split('\n');
+	data.lengh = 0;
 	return data;
 };
