@@ -1,5 +1,3 @@
-import { deepCopy } from './utils.js';
-
 /**
  * @param {string} almanac 
  */
