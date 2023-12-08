@@ -23,10 +23,6 @@ export const part1 = async d => {
 			case 'R':
 				currentNode = dir[1];
 				break;
-			default:
-				console.log('Ah Fuck!');
-				debugger;
-				break;
 		}
 		steps++;
 	}
