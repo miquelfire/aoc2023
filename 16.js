@@ -169,12 +169,15 @@ class Beam {
 }
 
 /**
- * @param {string} d 
+ * 
+ * @param {number} y 
+ * @param {number} x 
+ * @param {Dir} dir 
+ * @param {string[][]} data 
  */
-export const part1 = async d => {
-	const beams = [new Beam(0, 0, Dir.East)];
-	const data = d.split('\n').map(e => e.split(''));
-	const lit = new Set(['0x0']);
+function processBeam(y, x, dir, data) {
+	const beams = [new Beam(y, x, dir)];
+	const lit = new Set([beams[0].yx]);
 	const visited = new Set();
 	while (beams.length) {
 		/** @type {Beam[]} */
@@ -194,14 +197,39 @@ export const part1 = async d => {
 			beams.push(...newBeams);
 		}
 	}
+
 	return lit.size;
+}
+
+/**
+ * @param {string} d 
+ */
+export const part1 = async d => {
+	const data = d.split('\n').map(e => e.split(''));
+	return processBeam(0, 0, Dir.East, data);
 };
 
 /**
  * @param {string} d 
  */
 export const part2 = async d => {
-	const data = d.split('\n');
-	data.splice(0, data.length);
-	return data;
+	const data = d.split('\n').map(e => e.split(''));
+
+	let maxLit = 0;
+
+	for (let y = 0; y < data.length; y++) {
+		maxLit = Math.max(
+			maxLit,
+			processBeam(y, 0, Dir.East, data),
+			processBeam(y, data[y].length - 1, Dir.West, data)
+		);
+	}
+	for (let x = 0; x < data[0].length; x++) {
+		maxLit = Math.max(
+			maxLit,
+			processBeam(0, x, Dir.South, data),
+			processBeam(data.length - 1, x, Dir.North, data)
+		);
+	}
+	return maxLit;
 };
