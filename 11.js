@@ -93,7 +93,78 @@ export const part1 = async d => {
  * @param {string} d 
  */
 export const part2 = async d => {
-	const data = d.split('\n');
-	data.splice(0, data.length);
-	return data;
+	const maxSize = [-1, -1];
+	const occupiedSpace = [new Set([0]), new Set([0])];
+	occupiedSpace[0].clear();
+	occupiedSpace[1].clear();
+	const emptySpace = [new Set([0]), new Set([0])];
+	emptySpace[0].clear();
+	emptySpace[1].clear();
+	const galaxiesFound = [[0,0]];
+	galaxiesFound.splice(0);
+	/** @type {Map<string, string[]>} */
+	let sum = 0;
+	const expand = 1000000;
+
+	const data = d.split('\n').map((e, y) => {
+		maxSize[0] = y + 1;
+		if (e.indexOf('#') > -1) {
+			occupiedSpace[0].add(y);
+		}
+		return e.split('').map((e, x) => {
+			maxSize[1] = x + 1;
+			if (e == '#') {
+				occupiedSpace[1].add(x);
+			}
+			return e;
+		});
+	});
+
+	// Find the empty space
+	for (let y = 0; y < maxSize[0]; y++) {
+		if (!occupiedSpace[0].has(y)) {
+			emptySpace[0].add(y);
+		}
+	}
+	for (let x = 0; x < maxSize[1]; x++) {
+		if (!occupiedSpace[1].has(x)) {
+			emptySpace[1].add(x);
+		}
+	}
+
+	// Find the galaxies
+	for (let y = 0; y < data.length; y++) {
+		for (let x = 0; x < data[y].length; x++) {
+			if (data[y][x] == '#') {
+				galaxiesFound.push([y,x]);
+			}
+		}
+	}
+
+	// Process expansion
+	const emptySpaceIndex = [Array.from(emptySpace[0]).reverse(), Array.from(emptySpace[1]).reverse()];
+	for (const yidx of emptySpaceIndex[0]) {
+		galaxiesFound.forEach((g, i) => {
+			if (g[0] > yidx) {
+				galaxiesFound[i][0] += expand - 1;
+			}
+		});
+	}
+
+	for (const xidx of emptySpaceIndex[1]) {
+		galaxiesFound.forEach((g, i) => {
+			if (g[1] > xidx) {
+				galaxiesFound[i][1] += expand - 1;
+			}
+		});
+	}
+
+	const abs = (n) => (n < 0n) ? -n : n;
+	for (let i = 0; i < galaxiesFound.length - 1; i++) {
+		for (let j = i + 1; j < galaxiesFound.length; j++) {
+			sum += Math.abs(galaxiesFound[i][0] - galaxiesFound[j][0]);
+			sum += Math.abs(galaxiesFound[i][1] - galaxiesFound[j][1]);
+		}
+	}
+	return sum;
 };
