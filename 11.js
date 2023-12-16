@@ -100,7 +100,7 @@ export const part2 = async d => {
 	const emptySpace = [new Set([0]), new Set([0])];
 	emptySpace[0].clear();
 	emptySpace[1].clear();
-	const galaxiesFound = [[0,0]];
+	const galaxiesFound = [[0, 0]];
 	galaxiesFound.splice(0);
 	/** @type {Map<string, string[]>} */
 	let sum = 0;
@@ -136,7 +136,7 @@ export const part2 = async d => {
 	for (let y = 0; y < data.length; y++) {
 		for (let x = 0; x < data[y].length; x++) {
 			if (data[y][x] == '#') {
-				galaxiesFound.push([y,x]);
+				galaxiesFound.push([y, x]);
 			}
 		}
 	}
@@ -159,7 +159,6 @@ export const part2 = async d => {
 		});
 	}
 
-	const abs = (n) => (n < 0n) ? -n : n;
 	for (let i = 0; i < galaxiesFound.length - 1; i++) {
 		for (let j = i + 1; j < galaxiesFound.length; j++) {
 			sum += Math.abs(galaxiesFound[i][0] - galaxiesFound[j][0]);
